@@ -1,6 +1,6 @@
 use rand::prelude::*;
 
-const BOARD_SIZE: usize = 5;
+const BOARD_SIZE: usize = 6;
 const BOARD_CELL_COUNT: usize = BOARD_SIZE * BOARD_SIZE;
 
 fn are_indexes_win(board: &[bool], test_indexes: &[usize]) -> bool {
