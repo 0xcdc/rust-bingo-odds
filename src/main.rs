@@ -8,28 +8,27 @@ fn are_indexes_win(board: &[bool], test_indexes: &[usize]) -> bool {
     if !board[*i] { return false; }
   }
 
-  return true;
+  true
 }
 
 fn is_row_win(board: &[bool], row: usize) -> bool {
   let test_indexes: [usize; BOARD_SIZE] = core::array::from_fn(|i| row * BOARD_SIZE + i);
 
-  return are_indexes_win(&board, &test_indexes);
+  are_indexes_win(board, &test_indexes)
 }
 
 fn is_column_win(board: &[bool], col: usize) -> bool {
   let test_indexes: [usize; BOARD_SIZE] = core::array::from_fn(|i| i * BOARD_SIZE + col);
 
-  return are_indexes_win(&board, &test_indexes);
+  are_indexes_win(board, &test_indexes)
 }
 
 fn is_win(board: &[bool]) -> bool {
   for i in 0..BOARD_SIZE-1 {
-      if is_row_win(&board, i) { return true; }
-      if is_column_win(&board, i) { return true; }
+      if is_row_win(board, i) || is_column_win(board, i) { return true; }
   }
 
-  return false;
+  false
 }
 
 fn main() {
@@ -56,9 +55,17 @@ fn main() {
         board_counter += 1;
 
         if board_counter % 1000 == 0 {
-            let percents:  [i32; BOARD_CELL_COUNT] = core::array::from_fn(|i| solved_in[i] * 100 / board_counter);
+            let percents:  [f32; BOARD_CELL_COUNT] =
+              core::array::from_fn(|i| solved_in[i] as f32 * 100.0 / board_counter as f32);
 
-            println!("{:?}", percents);
+            for val in percents.iter() {
+              if *val <= 0.0001 {
+                print!("0 ");
+              } else {
+                print!("{:.1} ", val);
+              }
+            }
+            println!();
         }
     }
 }
